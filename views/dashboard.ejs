@@ -1,0 +1,61 @@
+<!-- dashboard.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+</head>
+<body>
+  <h1>Welcome to the Dashboard</h1>
+  <button id="profileBtn" style="color: red;">My Profile</button>
+
+  <h2>Categories</h2>
+  <ul>
+    <% categories.forEach(category => { %>
+      <li><%= category.name %></li>
+    <% }) %>
+  </ul>
+
+  <h2>Recipes</h2>
+  <ul>
+    <% recipes.forEach(recipe => { %>
+      <li>
+        <h3><%= recipe.title %></h3>
+        <p><strong>Category:</strong> <%= recipe.category.name %></p>
+        <p><strong>Ingredients:</strong> <%= recipe.ingredients.join(', ') %></p>
+        <p><strong>Instructions:</strong> <%= recipe.instructions %></p>
+      </li>
+    <% }) %>
+  </ul>
+
+  <!-- Script to handle button click and send JWT token in headers -->
+<!-- Script to handle button click and send JWT token in headers -->
+<script>
+    const token = localStorage.getItem('token');
+    const profileBtn = document.getElementById('profileBtn');
+    if (token) {
+      profileBtn.addEventListener('click', function() {
+        fetch('/profile', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }).then(response => {
+          if (response.ok) {
+            // Redirect to profile page upon successful authentication
+            window.location.href = '/profile';
+          } else {
+            console.error('Failed to authenticate user');
+          }
+        }).catch(error => {
+          console.error(error);
+          console.log('Error occurred. Please try again later.');
+        });
+      });
+    }
+  </script>
+  
+</body>
+</html>
