@@ -1,61 +1,235 @@
-<!-- dashboard.ejs -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard</title>
+  <title>CulturalCuisine Dashboard</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      margin-top: 20px;
+    }
+    .navbar-custom {
+      background-color: #fff; /* Or any color you prefer */
+      box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    }
+    .navbar-custom .navbar-brand {
+      color: #333;
+    }
+    .navbar-custom .navbar-nav .nav-link {
+      color: #333;
+    }
+    .navbar-custom .nav-item.active .nav-link,
+    .navbar-custom .nav-item:hover .nav-link {
+      color: #007bff;
+    }
+    .navbar-custom .btn {
+      padding: .375rem .75rem;
+      margin-left: .5rem;
+    }
+
+    .hero-section {
+      background: url('/background_image.jpg') no-repeat center center/cover;
+      padding: 4rem 0;
+      color: #fff;
+    }
+    .hero-section .btn {
+      background: #ffc107;
+      border: none;
+      border-radius: 50px;
+      padding: 0.5rem 1.5rem;
+      font-size: 1rem;
+      margin: 0 0.25rem;
+    }
+    .hero-section .btn:hover {
+      background: #e0a800;
+    }
+    .hero-section .btn.search-btn {
+      background: #28a745;
+      color: #fff;
+    }
+    .hero-section .btn.search-btn:hover {
+      background: #218838;
+    }
+
+    .hero-section {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-section::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.5); /* Black with 50% opacity */
+      z-index: -1;
+    }
+
+
+    /* You should extract this to a separate CSS file in production */
+    .exclusive-offer {
+      background-color: #f8f9fa;
+      text-align: center;
+      padding: 2rem 0;
+    }
+    .exclusive-offer h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .exclusive-offer .btn {
+      background: #007bff;
+      color: #fff;
+      border-radius: 50px;
+      padding: 0.5rem 1.5rem;
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+    .exclusive-offer .btn:hover {
+      background: #0056b3;
+    }
+
+    footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1rem 0;
+      margin-top: 4rem;
+    }
+    .recipe-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    
+    .recipe-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .recipe-card img {
+      width: 100%;
+      height: auto;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .recipe-details {
+      padding: 20px;
+    }
+    
+    .recipe-details h3 {
+      margin-top: 0;
+    }
+    
+    .recipe-details p {
+      margin: 0;
+    }   
+    
+    .recipe-details button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .recipe-details button:hover {
+      background-color: #0056b3;
+    }
+    
+  </style>
 </head>
 <body>
-  <h1>Welcome to the Dashboard</h1>
-  <button id="profileBtn" style="color: red;">My Profile</button>
+  <nav class="navbar navbar-expand-lg navbar-custom mb-5">
+    <div class="container">
+      <a class="navbar-brand" href="#">CulturalCui</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/recipes">Recipes <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Stories</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Community</a>
+          </li>
+        </ul>
+       <a href="/register"><button class="btn btn-primary" >Join</button></a> 
+       <a href="/login">  <button class="btn btn-outline-primary">Log in</button></a>
+      </div>
+    </div>
+  </nav>
 
+  <header class="hero-section text-center">
+    <h1>Discover Traditional Recipes</h1>
+    <p>Explore a world of culinary heritage!</p>
+    <div class="mb-4">
+      <button class="btn">Category</button>
+      <button class="btn">Ingredients</button>
+      <button class="btn">Comments</button>
+      <button class="btn">Substitutions</button>
+      <button class="btn search-btn">Search</button>
+    </div>
+  </header>
+
+  <a href="profile/openprofile"><button id="profileBtn">Profile</button></a>
+
+  
   <h2>Categories</h2>
   <ul>
     <% categories.forEach(category => { %>
-      <li><%= category.name %></li>
-    <% }) %>
-  </ul>
-
-  <h2>Recipes</h2>
-  <ul>
-    <% recipes.forEach(recipe => { %>
       <li>
-        <h3><%= recipe.title %></h3>
-        <p><strong>Category:</strong> <%= recipe.category.name %></p>
-        <p><strong>Ingredients:</strong> <%= recipe.ingredients.join(', ') %></p>
-        <p><strong>Instructions:</strong> <%= recipe.instructions %></p>
+        <img src="https://media.cnn.com/api/v1/images/stellar/prod/230321110038-04-body-mexican-foods-birria.jpg?q=w_1110,c_fill" width="100px" alt="">
+        <a href="/recipes/category/<%= category._id %>"><%= category.name %></a>
       </li>
     <% }) %>
   </ul>
 
-  <!-- Script to handle button click and send JWT token in headers -->
-<!-- Script to handle button click and send JWT token in headers -->
-<script>
-    const token = localStorage.getItem('token');
-    const profileBtn = document.getElementById('profileBtn');
-    if (token) {
-      profileBtn.addEventListener('click', function() {
-        fetch('/profile', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        }).then(response => {
-          if (response.ok) {
-            // Redirect to profile page upon successful authentication
-            window.location.href = '/profile';
-          } else {
-            console.error('Failed to authenticate user');
-          }
-        }).catch(error => {
-          console.error(error);
-          console.log('Error occurred. Please try again later.');
-        });
-      });
-    }
-  </script>
+  <h2>Recipes</h2>
+  <div class="recipe-cards">
+    <% recipes.forEach(recipe => { %>
+      <div class="recipe-card">
+        <% if (recipe.image) { %>
+          <img src="<%= '/' + recipe.image.replace(/\\/g, '/') %>" alt="Recipe Image">
+        <% } %>
+        <div class="recipe-details">
+          <h3><%= recipe.title %></h3>
+          <p><strong>Category:</strong> <%= recipe.category.name %></p>
+          <form action="/recipes/<%= recipe._id %>" method="GET">
+            <button type="submit">View Recipe</button>
+          </form>
+        </div>
+      </div>
+    <% }) %>
+  </div>
   
+  <!-- Add your main content here -->
+
+  <section class="exclusive-offer">
+    <h2>Exclusive Offer!</h2>
+    <p>Want to receive special recipes and insider tips from our culinary experts?</p>
+    <button class="btn">Join the Club</button>
+  </section>
+
+  <footer>
+    <p>CulturalCuisine</p>
+    <p>Your gateway to global flavors since 1997</p>
+  </footer>
+
+  <!-- Bootstrap JS, Popper.js, and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

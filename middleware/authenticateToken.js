@@ -16,6 +16,7 @@ const authenticateToken = (req, res, next) => {
     }
     console.log("i am here");
     req.userId = user.userId; // Add userId to request object
+    console.log("i am here",req.userId);
     next();
   });
 };

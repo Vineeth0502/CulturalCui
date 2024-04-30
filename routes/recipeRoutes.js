@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { createRecipe, getRecipes, getRecipeById, updateRecipe, deleteRecipe } = require('../controllers/recipeController');
+const { createRecipe, getRecipes, getRecipeById, updateRecipe, deleteRecipe,getRecipesByCategory , createComment, getCommentsByRecipeId  } = require('../controllers/recipeController');
 const authenticateToken = require('../middleware/authenticateToken');
 const multer = require('multer');
 
@@ -28,10 +28,16 @@ router.get('/', getRecipes);
 // Get a recipe by ID
 router.get('/:recipeId', getRecipeById);
 
+router.get('/category/:categoryId', getRecipesByCategory);
+
 // Update a recipe
 router.put('/:recipeId', authenticateToken, updateRecipe);
 
 // Delete a recipe
 router.delete('/:recipeId', authenticateToken, deleteRecipe);
 
+router.post('/:recipeId/comments',authenticateToken, createComment);
+
+// Route to get comments for a specific recipe
+router.get('/:recipeId/comments',authenticateToken, getCommentsByRecipeId);
 module.exports = router;

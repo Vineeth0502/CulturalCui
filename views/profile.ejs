@@ -1,4 +1,55 @@
 <!-- profile.ejs -->
-<h1>Profile</h1>
 
-<!-- Display user details -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+</head>
+<body>
+  <h1>Welcome, <span id="userName"></span>!</h1>
+  
+  <h2>Recipes</h2>
+  <ul id="recipeList"></ul>
+
+  <script>
+    // Function to render recipes
+    function renderRecipes(recipes) {
+      const recipeList = document.getElementById('recipeList');
+      recipeList.innerHTML = ''; // Clear previous content
+      
+      recipes.forEach(recipe => {
+        const listItem = document.createElement('li');
+        listItem.textContent = recipe.title;
+        recipeList.appendChild(listItem);
+      });
+    }
+   const token= localStorage.getItem('token')
+   console.log('SSSSSSSSSSSSSSSSS', token)
+    // Get profile data when the page loads
+    window.onload = async () => {
+      try {
+        const response = await fetch('/profile', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (response.ok) {
+          const profileData = await response.json();
+          console.log(profileData);
+          document.getElementById('userName').textContent = profileData.userName;
+          renderRecipes(profileData.recipes);
+        } else {
+          console.error('Failed to authenticate user');
+        }
+      } catch (error) {
+        console.error(error);
+        console.log('Error occurred. Please try again later.');
+      }
+    };
+  </script>
+</body>
+</html>

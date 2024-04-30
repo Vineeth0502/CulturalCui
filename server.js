@@ -9,7 +9,6 @@ const path = require('path');
 const Category = require('./models/category'); // Import the Category model
 const Recipe = require('./models/recipe'); // Import the Category model
 const authenticateToken = require('./middleware/authenticateToken');
-const User = require('./models/user');
 const profileRoutes = require('./routes/profileRoutes');
 // Create an Express application
 const app = express();
@@ -20,10 +19,12 @@ app.use(bodyParser.json({ limit: '50mb' }));
 // Parse URL-encoded bodies (up to 50MB)
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static('uploads'));
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
 // Define MongoDB connection URL and database name
-const mongoURI = 'mongodb://localhost:27017/recipesDB'; // Update with your MongoDB connection URL
+const mongoURI = 'mongodb+srv://vineethketham:BpE7Yh74Fb76HF3h@cluster0.twnu23i.mongodb.net/'; // Update with your MongoDB connection URL
 
 const dbName = 'recipesDB'; // Update with your database name
 app.use('/auth', authRoutes);

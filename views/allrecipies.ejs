@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Recipes</h2>
+    <div class="recipe-cards">
+      <% recipes.forEach(recipe => { %>
+        <div class="recipe-card">
+          <% if (recipe.image) { %>
+            <img src="<%= '/' + recipe.image.replace(/\\/g, '/') %>" alt="Recipe Image">
+          <% } %>
+          <div class="recipe-details">
+            <h3><%= recipe.title %></h3>
+            <p><strong>Category:</strong> <%= recipe.category.name %></p>
+            <form action="/recipes/<%= recipe._id %>" method="GET">
+              <button type="submit">View Recipe</button>
+            </form>
+          </div>
+        </div>
+      <% }) %>
+    </div> 
+</body>
+</html>

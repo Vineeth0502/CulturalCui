@@ -1,0 +1,33 @@
+<!-- recipesByCategory.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipes by Category</title>
+</head>
+<body>
+  <h1>Recipes by Category</h1>
+  
+  <h2>Category: <%= categoryName %></h2>
+  
+  <ul>
+    <% recipes.forEach(recipe => { %>
+      <li>
+        <h3><%= recipe.title %></h3>
+        <p><strong>Category:</strong> <%= categoryName %></p>
+        <p><strong>Ingredients:</strong> <%= recipe.ingredients.join(', ') %></p>
+        <p><strong>Instructions:</strong> <%= recipe.instructions %></p>
+     
+        <% if (recipe.image) { %>
+          <img src="<%= '/' + recipe.image.replace(/\\/g, '/') %>" alt="Recipe Image">
+        <% } %>
+
+        <form action="/recipes/<%= recipe._id %>" method="GET">
+          <button type="submit">View Recipe</button>
+        </form>
+    <% }) %>
+  </ul>
+</body>
+</html>
