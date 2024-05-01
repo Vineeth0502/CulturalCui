@@ -12,7 +12,7 @@
       margin-top: 20px;
     }
     .navbar-custom {
-      background-color: #fff; /* Or any color you prefer */
+      background-color: #fff; 
       box-shadow: 0 2px 4px rgba(0,0,0,.1);
     }
     .navbar-custom .navbar-brand {
@@ -62,7 +62,6 @@
     .hero-section::before {
       content: '';
       display: block;
-      position: absolute;
       top: 0;
       right: 0;
       bottom: 0;
@@ -143,6 +142,102 @@
     .recipe-details button:hover {
       background-color: #0056b3;
     }
+
+    /* featured section */
+    .featured-recipes {
+  font-family: 'Open Sans', sans-serif;
+  margin: 20px;
+  padding-left: 15px; /* align with your site's layout */
+}
+
+.featured-recipes h2 {
+  font-size: 1.5em;
+  color: #333;
+  margin-bottom: 1em;
+}
+
+.recipes-container {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+}
+
+.recipe-card {
+  width: 250px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  background-color: #fff;
+  position: relative;
+}
+
+.recipe-image {
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+}
+
+.recipe-rating {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #ffc107;
+  color: #fff;
+  border-radius: 50%;
+  padding: 0.3em 0.6em;
+  display: flex;
+  align-items: center;
+  font-size: 0.875em;
+}
+
+.rating-value {
+  margin-right: 0.2em;
+}
+
+.rating-star {
+  color: #fff;
+}
+
+.recipe-title {
+  font-size: 1.1em;
+  font-weight: bold;
+  margin: 0.5em;
+}
+
+.recipe-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1em 1em 1em;
+}
+
+.recipe-cuisine,
+.recipe-prep-time {
+  font-size: 0.875em;
+}
+
+.recipe-link {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  background-color: #000;
+  mask: url('/path-to-your-chevron-icon.svg') no-repeat 50% 50%;
+  mask-size: cover;
+  background-size: cover;
+  transition: background-color 0.3s;
+}
+
+.recipe-link:hover {
+  background-color: #555;
+}
+
+/* Ensure this CSS is loaded after Bootstrap to override styles */
+.btn {
+  border-radius: 50px;
+}
+
     
   </style>
 </head>
@@ -196,24 +291,35 @@
     <% }) %>
   </ul>
 
-  <h2>Recipes</h2>
-  <div class="recipe-cards">
-    <% recipes.forEach(recipe => { %>
-      <div class="recipe-card">
-        <% if (recipe.image) { %>
-          <img src="<%= '/' + recipe.image.replace(/\\/g, '/') %>" alt="Recipe Image">
-        <% } %>
-        <div class="recipe-details">
-          <h3><%= recipe.title %></h3>
-          <p><strong>Category:</strong> <%= recipe.category.name %></p>
-          <form action="/recipes/<%= recipe._id %>" method="GET">
-            <button type="submit">View Recipe</button>
-          </form>
+  <div class="featured-recipes">
+    <h2>Featured Recipes</h2>
+    <div class="recipes-container">
+      <% recipes.forEach(recipe => { %>
+        <div class="recipe-card">
+          <% if (recipe.image) { %>
+            <div class="recipe-image" style="background-image: url('<%= '/' + recipe.image.replace(/\\/g, '/') %>');"></div>
+          <% } else { %>
+            <!-- Placeholder if no image available -->
+            <div class="recipe-image" style="background-image: url('/images/default.jpg');"></div>
+          <% } %>
+          <div class="recipe-rating">
+            <span class="rating-value"><%= recipe.rating %></span>
+            <i class="fas fa-star rating-star"></i>
+          </div>
+          <h3 class="recipe-title"><%= recipe.title %></h3>
+          <div class="recipe-info">
+            <span class="recipe-cuisine"><%= recipe.category.name %> Cuisine</span>
+            <span class="recipe-prep-time">Prep Time: <%= recipe.prepTime %> min</span>
+            <a href="/recipes/<%= recipe._id %>" class="recipe-link">></a>
+          </div>
         </div>
-      </div>
-    <% }) %>
+      <% }) %>
+    </div>
   </div>
   
+  
+  
+
   <!-- Add your main content here -->
 
   <section class="exclusive-offer">

@@ -1,33 +1,176 @@
-<!-- recipesByCategory.ejs -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recipes by Category</title>
+  <title>Discover Recipes</title>
+  <style>
+    body {
+  background: #f0f0f0;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.recipe-listing {
+  padding: 20px;
+}
+
+.recipe-listing h2 {
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.no-results {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.1em;
+}
+
+.recipes-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.recipe-card {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.recipe-img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.recipe-title {
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.recipe-detail {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.recipe-actions {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.btn-save, .btn-share {
+  border: none;
+  background-color: #ffce00; /* Yellow color for buttons */
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-share {
+  background-color: #00ceff; /* Blue color for share button */
+}
+
+.rating {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stars {
+  /* Star icon styles or use images */
+}
+
+.reviews-link {
+  color: #007bff; /* Blue color for link */
+  text-decoration: none;
+}
+
+.cooking-info {
+  font-size: 0.9em;
+  margin-top: 5px;
+}
+
+.btn-details {
+  background-color: #00ce88; /* Green color for details button */
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  text-align: center;
+  border-radius: 5px;
+  margin-top: auto; /* Align button to the bottom */
+}
+
+.pagination {
+  text-align: center;
+  padding: 20px;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .recipes-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .recipes-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+  </style>
 </head>
 <body>
-  <h1>Recipes by Category</h1>
-  
-  <h2>Category: <%= categoryName %></h2>
-  
-  <ul>
-    <% recipes.forEach(recipe => { %>
-      <li>
-        <h3><%= recipe.title %></h3>
-        <p><strong>Category:</strong> <%= categoryName %></p>
-        <p><strong>Ingredients:</strong> <%= recipe.ingredients.join(', ') %></p>
-        <p><strong>Instructions:</strong> <%= recipe.instructions %></p>
-     
-        <% if (recipe.image) { %>
-          <img src="<%= '/' + recipe.image.replace(/\\/g, '/') %>" alt="Recipe Image">
-        <% } %>
 
-        <form action="/recipes/<%= recipe._id %>" method="GET">
-          <button type="submit">View Recipe</button>
-        </form>
-    <% }) %>
-  </ul>
+  <main class="recipe-listing">
+    <h2>Showing recipes for <span><%= categoryName %></span></h2>
+    
+    <!-- Handle the 'No results found' case -->
+    <% if (recipes.length === 0) { %>
+      <div class="no-results">No results found</div>
+    <% } %>
+
+    <div class="recipes-container">
+      <% recipes.forEach(recipe => { %>
+        <article class="recipe-card">
+          <img src="<%= recipe.image || '/path/to/default-image.jpg' %>" alt="<%= recipe.title %>" class="recipe-img">
+          <h3 class="recipe-title"><%= recipe.title %></h3>
+          <!-- Add other recipe details here -->
+          <p class="recipe-detail">Preparation: <%= recipe.prepTime %></p>
+          <p class="recipe-detail">Difficulty: <%= recipe.difficulty %></p>
+          <!-- Add action buttons -->
+          <div class="recipe-actions">
+            <button class="btn-save">Save</button>
+            <button class="btn-share">Share</button>
+          </div>
+          <!-- Rating and review link -->
+          <div class="rating">
+            <span class="stars">Rating: <%= recipe.rating %></span>
+            <!-- Implement Read Reviews functionality -->
+            <a href="/reviews/<%= recipe._id %>" class="reviews-link">Read Reviews</a>
+          </div>
+          <div class="cooking-info">
+            <!-- Display cooking and serving size -->
+            <p class="recipe-cooking">Cooking: <%= recipe.cookingTime %></p>
+            <p class="recipe-serving">Serving Size: <%= recipe.servingSize %></p>
+          </div>
+          <a href="/recipes/<%= recipe._id %>" class="btn-details">View Details</a>
+        </article>
+      <% }) %>
+    </div>
+    
+    <!-- Pagination would go here -->
+    <div class="pagination">
+      <!-- ... -->
+    </div>
+  </main>
+
 </body>
 </html>
