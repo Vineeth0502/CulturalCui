@@ -21,6 +21,10 @@
     </ul>
     <p><strong>Instructions:</strong> <%= recipe.instructions %></p>
     <p><strong>Created By:</strong> <%= recipe.createdBy.username %></p>
+    <p><strong>Preperation time:</strong> <%= recipe.preparationTime %></p>
+    <p><strong>servingSize :</strong> <%= recipe.servingSize %></p>
+
+
     <% if (recipe.image) { %>
         <img src="<%= '/' + recipe.image.replace(/\\/g, '/') %>" alt="Recipe Image">
       <% } %>

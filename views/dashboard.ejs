@@ -279,16 +279,37 @@
   </header>
 
   <a href="profile/openprofile"><button id="profileBtn">Profile</button></a>
+  <a href="/create"><button >Create</button></a>
 
   
   <h2>Categories</h2>
   <ul>
-    <% categories.forEach(category => { %>
+
       <li>
         <img src="https://media.cnn.com/api/v1/images/stellar/prod/230321110038-04-body-mexican-foods-birria.jpg?q=w_1110,c_fill" width="100px" alt="">
-        <a href="/recipes/category/<%= category._id %>"><%= category.name %></a>
+        <a href="/recipes/category/663281e0c1620b8b3edf2fdb">Itlalian</a>
       </li>
-    <% }) %>
+      <li>
+        <img src="https://media.cnn.com/api/v1/images/stellar/prod/230321110038-04-body-mexican-foods-birria.jpg?q=w_1110,c_fill" width="100px" alt="">
+        <a href="/recipes/category/663281ffc1620b8b3edf2fdd">indian</a>
+      </li>
+      <li>
+        <img src="https://media.cnn.com/api/v1/images/stellar/prod/230321110038-04-body-mexican-foods-birria.jpg?q=w_1110,c_fill" width="100px" alt="">
+        <a href="/recipes/category/66328242c1620b8b3edf2fdf      ">chinese</a>
+      </li>
+      <li>
+        <img src="https://media.cnn.com/api/v1/images/stellar/prod/230321110038-04-body-mexican-foods-birria.jpg?q=w_1110,c_fill" width="100px" alt="">
+        <a href="/recipes/category/662c4063f98b4fc04a02da6b   ">Mexican</a>
+      </li>
+      <li>
+        <img src="https://media.cnn.com/api/v1/images/stellar/prod/230321110038-04-body-mexican-foods-birria.jpg?q=w_1110,c_fill" width="100px" alt="">
+        <a href="/recipes/category/662c4077f98b4fc04a02da6d   ">Asian</a>
+      </li>
+      <li>
+        <img src="https://media.cnn.com/api/v1/images/stellar/prod/230321110038-04-body-mexican-foods-birria.jpg?q=w_1110,c_fill" width="100px" alt="">
+        <a href="/recipes/category/663282e2c1620b8b3edf2fe1   ">Japanese</a>
+      </li>
+
   </ul>
 
   <div class="featured-recipes">
@@ -309,7 +330,7 @@
           <h3 class="recipe-title"><%= recipe.title %></h3>
           <div class="recipe-info">
             <span class="recipe-cuisine"><%= recipe.category.name %> Cuisine</span>
-            <span class="recipe-prep-time">Prep Time: <%= recipe.prepTime %> min</span>
+            <span class="recipe-prep-time">Prep Time: <%= recipe.preparationTime   %> min</span>
             <a href="/recipes/<%= recipe._id %>" class="recipe-link">></a>
           </div>
         </div>

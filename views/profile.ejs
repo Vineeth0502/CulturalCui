@@ -6,12 +6,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Profile</title>
+  <style>
+    .recipe {
+      margin-bottom: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+    .recipe img {
+      max-width: 100%;
+      height: auto;
+    }
+    .delete-button {
+      color: red;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <h1>Welcome, <span id="userName"></span>!</h1>
   
   <h2>Recipes</h2>
-  <ul id="recipeList"></ul>
+  <div id="recipeList"></div>
 
   <script>
     // Function to render recipes
@@ -20,20 +35,72 @@
       recipeList.innerHTML = ''; // Clear previous content
       
       recipes.forEach(recipe => {
-        const listItem = document.createElement('li');
-        listItem.textContent = recipe.title;
-        recipeList.appendChild(listItem);
+        const recipeContainer = document.createElement('div');
+        recipeContainer.classList.add('recipe');
+
+        const titleElement = document.createElement('h3');
+        titleElement.textContent = recipe.title;
+        recipeContainer.appendChild(titleElement);
+
+        const categoryElement = document.createElement('p');
+        categoryElement.textContent = 'Category: ' + recipe.category.name;
+        recipeContainer.appendChild(categoryElement);
+
+        const ingredientsElement = document.createElement('p');
+        ingredientsElement.textContent = 'Ingredients: ' + recipe.ingredients.join(', ');
+        recipeContainer.appendChild(ingredientsElement);
+
+        const instructionsElement = document.createElement('p');
+        instructionsElement.textContent = 'Instructions: ' + recipe.instructions;
+        recipeContainer.appendChild(instructionsElement);
+
+        if (recipe.image) {
+          const imageElement = document.createElement('img');
+          imageElement.src = '/' + recipe.image.replace(/\\/g, '/');
+          imageElement.alt = 'Recipe Image';
+          recipeContainer.appendChild(imageElement);
+        }
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete Recipe';
+        deleteButton.classList.add('delete-button');
+        deleteButton.onclick = () => deleteRecipe(recipe._id);
+        recipeContainer.appendChild(deleteButton);
+
+        recipeList.appendChild(recipeContainer);
       });
     }
-   const token= localStorage.getItem('token')
-   console.log('SSSSSSSSSSSSSSSSS', token)
+
+    // Function to delete recipe
+    async function deleteRecipe(recipeId) {
+      const confirmDelete = confirm('Are you sure you want to delete this recipe?');
+      if (confirmDelete) {
+        try {
+          const response = await fetch('/recipes/' + recipeId, {
+            method: 'DELETE',
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+          });
+          if (response.ok) {
+            // Recipe deleted successfully, reload the profile page
+            window.location.reload();
+          } else {
+            console.error('Failed to delete recipe');
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }
+
     // Get profile data when the page loads
     window.onload = async () => {
       try {
         const response = await fetch('/profile', {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
         });
 

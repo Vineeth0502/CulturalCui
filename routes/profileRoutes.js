@@ -14,7 +14,9 @@ router.get('/', authenticateToken, async (req, res) => {
     const userName = user.username;
 
     // Fetch recipes created by the user from the database
-    const recipes = await Recipe.find({ createdBy: req.userId });
+    // const recipes = await Recipe.find({ createdBy: req.userId });
+    const recipes = await Recipe.find({ createdBy: req.userId  }).populate('category', 'name').populate('createdBy');
+
     res.json({
       userName: user.username,
       recipes: recipes // Assuming user has a recipes field

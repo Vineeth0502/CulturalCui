@@ -13,6 +13,14 @@ const recipeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  servingSize: {
+    type: String,
+    required: true,
+  },
+  preparationTime: {
+    type: String,
+    required: true,
+  },
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',

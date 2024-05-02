@@ -5,7 +5,7 @@ const Comment = require('../models/commentSchema');
 // Create a new recipe
 const createRecipe = async (req, res) => {
   try {
-    const { title, ingredients, instructions, category } = req.body;
+    const { title, ingredients, instructions, category, servingSize, preparationTime } = req.body;
     const createdBy = req.userId; // Get the authenticated user's ID from request object
 
     // Check if an image file is uploaded
@@ -15,7 +15,17 @@ const createRecipe = async (req, res) => {
       imageUrl = req.file.path; // Use the path of the uploaded image file
     }
 
-    const recipe = new Recipe({ title, ingredients, instructions, category, createdBy, image: imageUrl });
+    const recipe = new Recipe({ 
+      title, 
+      ingredients, 
+      instructions, 
+      category, 
+      servingSize, 
+      preparationTime, 
+      createdBy, 
+      image: imageUrl 
+    });
+    
     await recipe.save();
     res.status(201).json(recipe);
   } catch (error) {
@@ -23,6 +33,7 @@ const createRecipe = async (req, res) => {
     res.status(500).json({ message: 'Server Error' });
   }
 };
+
 
 
 // Get all recipes

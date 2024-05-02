@@ -24,6 +24,14 @@
       </select>
     </div>
     <div>
+      <label for="servingSize">Serving Size:</label>
+      <input type="text" id="servingSize" name="servingSize" required>
+    </div>
+    <div>
+      <label for="preparationTime">Preparation Time:</label>
+      <input type="text" id="preparationTime" name="preparationTime" required>
+    </div>
+    <div>
       <label for="ingredients">Ingredients:</label>
       <textarea id="ingredients" name="ingredients" rows="4" required></textarea>
     </div>
@@ -38,37 +46,36 @@
     <button type="submit">Upload Recipe</button>
   </form>
   <script>
-    const token = localStorage.getItem('token');
-    console.log('SSSSSSSSSSSSSSSSS', token)
-    
     document.getElementById('createRecipeForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      
+
       const token = localStorage.getItem('token');
-      console.log('SSSSSSSSSSSSSSSSS', token)
       const title = document.getElementById('title').value;
       const category = document.getElementById('category').value;
+      const servingSize = document.getElementById('servingSize').value;
+      const preparationTime = document.getElementById('preparationTime').value;
       const ingredients = document.getElementById('ingredients').value;
       const instructions = document.getElementById('instructions').value;
       const image = document.getElementById('image').files[0];
-  
+
       try {
         const formData = new FormData();
         formData.append('title', title);
         formData.append('category', category);
+        formData.append('servingSize', servingSize);
+        formData.append('preparationTime', preparationTime);
         formData.append('ingredients', ingredients);
         formData.append('instructions', instructions);
         formData.append('image', image);
-  
+
         const response = await fetch('/recipes', {
           method: 'POST',
           body: formData,
           headers: {
-            // Don't include 'Content-Type' header for FormData
             'Authorization': `Bearer ${token}`,
           },
         });
-  
+
         if (response.ok) {
           window.location.href = '/dashboard'; // Redirect to dashboard upon successful recipe creation
         } else {
@@ -80,7 +87,5 @@
       }
     });
   </script>
-  
-  
 </body>
 </html>
