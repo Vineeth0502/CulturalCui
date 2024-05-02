@@ -5,7 +5,7 @@ const Comment = require('../models/commentSchema');
 // Create a new recipe
 const createRecipe = async (req, res) => {
   try {
-    const { title, ingredients, instructions, category, servingSize, preparationTime } = req.body;
+    const { title, ingredients, instructions, category, servingSize, preparationTime,description } = req.body;
     const createdBy = req.userId; // Get the authenticated user's ID from request object
 
     // Check if an image file is uploaded
@@ -23,6 +23,7 @@ const createRecipe = async (req, res) => {
       servingSize, 
       preparationTime, 
       createdBy, 
+      description,
       image: imageUrl 
     });
     
