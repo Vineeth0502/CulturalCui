@@ -315,7 +315,7 @@
   <div class="featured-recipes">
     <h2>Featured Recipes</h2>
     <div class="recipes-container">
-      <% recipes.forEach(recipe => { %>
+      <% recipes.slice(0, 6).forEach(recipe => { %>
         <div class="recipe-card">
           <% if (recipe.image) { %>
             <div class="recipe-image" style="background-image: url('<%= '/' + recipe.image.replace(/\\/g, '/') %>');"></div>
