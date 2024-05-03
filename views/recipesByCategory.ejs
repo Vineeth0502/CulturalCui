@@ -6,125 +6,337 @@
   <title>Discover Recipes</title>
   <style>
     body {
-  background: #f0f0f0;
-  font-family: 'Arial', sans-serif;
-  margin: 0;
-  padding: 0;
-}
+      font-family: 'Open Sans', sans-serif;
+      margin-top: 20px;
+    }
+    .navbar-custom {
+      background-color: #fff; 
+      box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    }
+    .navbar-custom .navbar-brand {
+      color: #333;
+      font-weight: bold;
+    }
+    .navbar-custom .navbar-nav .nav-link {
+      color: #333;
+    }
+    .navbar-custom .nav-item.active .nav-link,
+    .navbar-custom .nav-item:hover .nav-link {
+      color: #ffc107;
+    }
+    .navbar-custom .btn {
+      padding: .375rem .75rem;
+      margin-left: .5rem;
+    }
 
-.recipe-listing {
-  padding: 20px;
-}
+    .hero-section {
+      background: url('/background_image.jpg') no-repeat center center/cover;
+      padding: 4rem 0;
+      color: #fff;
+    }
+    .hero-section .btn {
+      background: #ffc107;
+      border: none;
+      border-radius: 50px;
+      padding: 0.5rem 1.5rem;
+      font-size: 1rem;
+      margin: 0 0.25rem;
+    }
+    .hero-section .btn:hover {
+      background: #e0a800;
+    }
+    .hero-section .btn.search-btn {
+      background: #28a745;
+      color: #fff;
+    }
+    .hero-section .btn.search-btn:hover {
+      background: #218838;
+    }
 
-.recipe-listing h2 {
-  font-size: 1.2em;
-  color: #333;
-  margin-bottom: 20px;
-}
+    .hero-section {
+      position: relative;
+      z-index: 1;
+    }
 
-.no-results {
-  text-align: center;
-  padding: 20px;
-  font-size: 1.1em;
-}
+    .hero-section::before {
+      content: '';
+      display: block;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.5); /* Black with 50% opacity */
+      z-index: -1;
+    }
 
-.recipes-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
 
-.recipe-card {
-  background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-}
+    /* You should extract this to a separate CSS file in production */
+    .exclusive-offer {
+      background-color: #f8f9fa;
+      text-align: center;
+      padding: 2rem 0;
+    }
+    .exclusive-offer h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .exclusive-offer .btn {
+      background: #ffc107;
+      color: #fff;
+      border-radius: 50px;
+      padding: 0.5rem 1.5rem;
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+    .exclusive-offer .btn:hover {
+      background: #ffc107;
+    }
 
-.recipe-img {
-  width: 100%;
-  height: auto;
-  border-radius: 5px;
-}
+    footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1rem 0;
+      margin-top: 4rem;
+    }
+    .recipe-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    
+    .recipe-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .recipe-card img {
+      width: 100%;
+      height: auto;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .recipe-details {
+      padding: 20px;
+    }
+    
+    .recipe-details h3 {
+      margin-top: 0;
+    }
+    
+    .recipe-details p {
+      margin: 0;
+    }   
+    
+    .recipe-details button {
+      background-color: #ffc107;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .recipe-details button:hover {
+      background-color: #ffc107;
+    }
 
-.recipe-title {
-  font-weight: bold;
-  margin: 10px 0;
-}
+    /* featured section */
+    .featured-recipes {
+      font-family: 'Open Sans', sans-serif;
+      margin: 20px;
+      padding-left: 15px; /* align with your site's layout */
+    }
 
-.recipe-detail {
-  color: #666;
-  font-size: 0.9em;
-}
+    .featured-recipes h2 {
+      font-size: 1.5em;
+      color: #333;
+      margin-bottom: 1em;
+    }
 
-.recipe-actions {
-  display: flex;
-  justify-content: space-between;
-  margin: 10px 0;
-}
+    .recipes-container {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+    }
 
-.btn-save, .btn-share {
-  border: none;
-  background-color: #ffce00; /* Yellow color for buttons */
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-}
+    .recipe-card {
+      width: 250px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      background-color: #fff;
+      position: relative;
+    }
 
-.btn-share {
-  background-color: #00ceff; /* Blue color for share button */
-}
+    .recipe-image {
+      height: 150px;
+      background-size: cover;
+      background-position: center;
+    }
 
-.rating {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+    .recipe-rating {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: #ffc107;
+      color: #fff;
+      border-radius: 50%;
+      padding: 0.3em 0.6em;
+      display: flex;
+      align-items: center;
+      font-size: 0.875em;
+    }
 
-.stars {
-  /* Star icon styles or use images */
-}
+    .rating-value {
+      margin-right: 0.2em;
+    }
 
-.reviews-link {
-  color: #007bff; /* Blue color for link */
-  text-decoration: none;
-}
+    .rating-star {
+      color: #fff;
+    }
 
-.cooking-info {
-  font-size: 0.9em;
-  margin-top: 5px;
-}
+    .recipe-title {
+      font-size: 1.1em;
+      font-weight: bold;
+      margin: 0.5em;
+    }
 
-.btn-details {
-  background-color: #00ce88; /* Green color for details button */
-  color: white;
-  padding: 10px 20px;
-  text-decoration: none;
-  text-align: center;
-  border-radius: 5px;
-  margin-top: auto; /* Align button to the bottom */
-}
+    .recipe-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1em 1em 1em;
+    }
 
-.pagination {
-  text-align: center;
-  padding: 20px;
-}
+    .recipe-cuisine,
+    .recipe-prep-time {
+      font-size: 0.875em;
+    }
 
-/* Media queries for responsiveness */
-@media (max-width: 768px) {
-  .recipes-container {
-    grid-template-columns: 1fr 1fr;
-  }
-}
+    .recipe-link {
+      position: absolute;
+      top: 150px;
+      right: 10px;
+      width: 30px;
+      height: 30px;
+      font-size: 30px;
+      color: #000;
+      z-index: 999;
+      mask-size: cover;
+      background-size: cover;
+      transition: background-color 0.3s;
+    }
 
-@media (max-width: 480px) {
-  .recipes-container {
-    grid-template-columns: 1fr;
-  }
-}
+ 
 
+    /* Ensure this CSS is loaded after Bootstrap to override styles */
+    .btn {
+      border-radius: 50px;
+    }
+
+    .cuisines-title {
+      text-align: center;
+      font-size: 24px;
+      margin-top: 20px;
+      font-family: Arial, sans-serif;
+    }
+
+    .cuisines-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin: 20px 0;
+    }
+
+    .cuisine-item {
+      flex-basis: calc(33.33% - 40px); /* Adjust size and space between items */
+      margin: 20px;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .cuisine-image {
+      width: 100%;
+      height: 150px; /* Fixed height for uniformity */
+      object-fit: cover; /* Ensures image covers the area without distortion */
+    }
+
+    .cuisine-link {
+      display: block;
+      text-align: center;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 10px;
+      font-size: 16px;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      text-decoration: none;
+    }
+
+    .cuisine-link:hover {
+      color: white;
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    #profileBtn {
+      display: inline-block;
+      background-color: #ffc107; 
+      margin-left: 20px;
+      width: 40px; /* Width of the button */
+      height: 40px; /* Height of the button */
+      border-radius: 20px; /* Makes the button rounded */
+      overflow: hidden; /* Ensures no overflow outside the button */
+      cursor: pointer; /* Changes cursor to pointer to indicate it's clickable */
+      border: none; /* No border for a cleaner look */
+    }
+
+    #profileBtn img {
+      width: 100%; /* Ensures the icon fits the button */
+      height: auto; /* Maintains aspect ratio of the icon */
+      display: block; /* Removes any extra space inside the anchor */
+    }
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+      z-index: 9999; /* Ensure the popup appears above other content */
+    }
+    
+    .popup-content {
+      background-color: #fefefe;
+      margin: 10% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 600px; /* Maximum width of the popup */
+    }
+    
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    
+    
   </style>
 </head>
 <body>
@@ -136,34 +348,29 @@
     <% if (recipes.length === 0) { %>
       <div class="no-results">No results found</div>
     <% } %>
-
-    <div class="recipes-container">
-      <% recipes.forEach(recipe => { %>
-        <article class="recipe-card">
-          <img src="<%= recipe.image || '/path/to/default-image.jpg' %>" alt="<%= recipe.title %>" class="recipe-img">
-          <h3 class="recipe-title"><%= recipe.title %></h3>
-          <!-- Add other recipe details here -->
-          <p class="recipe-detail">Preparation: <%= recipe.preparationTime %></p>
-          <p class="recipe-detail">Difficulty: <%= recipe.difficulty %></p>
-          <!-- Add action buttons -->
-          <div class="recipe-actions">
-            <button class="btn-save">Save</button>
-            <button class="btn-share">Share</button>
+    <div class="featured-recipes">
+      <div class="recipes-container">
+        <% recipes.slice(0, 6).forEach(recipe => { %>
+          <div class="recipe-card">
+            <% if (recipe.image) { %>
+              <div class="recipe-image" style="background-image: url('<%= '/' + recipe.image.replace(/\\/g, '/') %>');"></div>
+            <% } else { %>
+              <!-- Placeholder if no image available -->
+              <div class="recipe-image" style="background-image: url('/images/default.jpg');"></div>
+            <% } %>
+            <div class="recipe-rating">
+              <span class="rating-value"><%= recipe.rating %></span>
+              <i class="fas fa-star rating-star"></i>
+            </div>
+            <h3 class="recipe-title"><%= recipe.title %></h3>
+            <div class="recipe-info">
+              <span class="recipe-cuisine"><%= recipe.category.name %> Cuisine</span>
+              <span class="recipe-prep-time">Prep Time: <%= recipe.preparationTime   %> min</span>
+              <a href="/recipes/<%= recipe._id %>" class="recipe-link">></a>
+            </div>
           </div>
-          <!-- Rating and review link -->
-          <div class="rating">
-            <span class="stars">Rating: <%= recipe.rating %></span>
-            <!-- Implement Read Reviews functionality -->
-            <a href="/reviews/<%= recipe._id %>" class="reviews-link">Read Reviews</a>
-          </div>
-          <div class="cooking-info">
-            <!-- Display cooking and serving size -->
-            <p class="recipe-cooking">Cooking: <%= recipe.cookingTime %></p>
-            <p class="recipe-serving">Serving Size: <%= recipe.servingSize %></p>
-          </div>
-          <a href="/recipes/<%= recipe._id %>" class="btn-details">View Details</a>
-        </article>
-      <% }) %>
+        <% }) %>
+      </div>
     </div>
     
     <!-- Pagination would go here -->

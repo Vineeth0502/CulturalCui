@@ -1,5 +1,3 @@
-<!-- profile.ejs -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,67 +5,190 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Profile</title>
   <style>
-    .recipe {
-      margin-bottom: 20px;
-      padding: 10px;
-      border: 1px solid #ccc;
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff9c4; /* Yellow background color */
     }
+
+    .header {
+      background-color: #ffca28; /* Yellow header background color */
+      color: #fff; /* White text color */
+      padding: 20px;
+      text-align: center;
+    }
+
+    .profile-container {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px;
+      padding: 20px;
+      background-color: #fff; /* White background color */
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-sidebar {
+      flex: 1;
+      margin-right: 20px;
+      text-align: center;
+    }
+
+    .profile-image {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 5px solid #ffca28; /* Yellow border */
+      object-fit: cover;
+    }
+
+    .profile-content {
+      flex: 2;
+    }
+
+    .tabs {
+      margin-bottom: 20px;
+    }
+
+    .tabs button {
+      background-color: #ffca28; /* Yellow background color */
+      color: #fff; /* White text color */
+      border: none;
+      padding: 10px 20px;
+      margin-right: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .tabs button:hover {
+      background-color: #ffb300; /* Darker yellow on hover */
+    }
+
+    .recipe-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Three recipes per row */
+      gap: 20px;
+    }
+
+    .recipe {
+      padding: 20px;
+      background-color: #fff; /* White background color */
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .recipe h3 {
+      color: #ffca28; /* Yellow heading color */
+    }
+
     .recipe img {
       max-width: 100%;
       height: auto;
+      border-radius: 8px;
+      margin-bottom: 10px;
     }
+
     .delete-button {
-      color: red;
+      color: #f44336;
+      background-color: transparent;
+      border: 1px solid #f44336;
+      padding: 8px 16px;
+      border-radius: 5px;
       cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
     }
+
+    .delete-button:hover {
+      background-color: #f44336;
+      color: white;
+    }
+
+    .new-recipe-btn {
+      background-color: #4CAF50; /* Green background to signify creation/action */
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none; /* Remove underline from link */
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .new-recipe-btn:hover {
+      background-color: #45a049; /* Slightly darker green on hover */
+    }
+
+
   </style>
 </head>
 <body>
-  <h1>Welcome, <span id="userName"></span>!</h1>
+  <div class="header">
+    <h1>Welcome, <span id="userName">Brittany</span>!</h1>
+  </div>
   
-  <h2>Recipes</h2>
-  <div id="recipeList"></div>
+  <div class="profile-container">
+    <div class="profile-sidebar">
+      <img src="/profile-image.png" alt="Profile Image" class="profile-image">
+      <p>New York, USA</p>
+      <button class="edit-bio">Edit Bio</button>
+    </div>
+    <div class="profile-content">
+      <div class="tabs">
+        <button>All</button>
+        <button>Saved</button>
+        <button>Created</button>
+        <button>Collections</button>
+        <button>Following</button>
+        <button>Activity</button>
+        <!-- New Recipe Button -->
+        <a href="/create" class="new-recipe-btn">Create New Recipe</a>
+      </div>
+
+      <h2>Recipes</h2>
+      <div class="recipe-container" id="recipeList"></div>
+      
+    </div>
+  </div>
 
   <script>
     // Function to render recipes
     function renderRecipes(recipes) {
-      const recipeList = document.getElementById('recipeList');
-      recipeList.innerHTML = ''; // Clear previous content
+      const recipeContainer = document.getElementById('recipeList');
+      recipeContainer.innerHTML = ''; // Clear previous content
       
       recipes.forEach(recipe => {
-        const recipeContainer = document.createElement('div');
-        recipeContainer.classList.add('recipe');
+        const recipeDiv = document.createElement('div');
+        recipeDiv.classList.add('recipe');
 
         const titleElement = document.createElement('h3');
         titleElement.textContent = recipe.title;
-        recipeContainer.appendChild(titleElement);
-
-        const categoryElement = document.createElement('p');
-        categoryElement.textContent = 'Category: ' + recipe.category.name;
-        recipeContainer.appendChild(categoryElement);
-
-        const ingredientsElement = document.createElement('p');
-        ingredientsElement.textContent = 'Ingredients: ' + recipe.ingredients.join(', ');
-        recipeContainer.appendChild(ingredientsElement);
-
-        const instructionsElement = document.createElement('p');
-        instructionsElement.textContent = 'Instructions: ' + recipe.instructions;
-        recipeContainer.appendChild(instructionsElement);
+        recipeDiv.appendChild(titleElement);
 
         if (recipe.image) {
+          // Create anchor element
+          const imageLink = document.createElement('a');
+          imageLink.href = '/recipes/' + recipe._id; // Set the href attribute 
+    
+          // Create image element
           const imageElement = document.createElement('img');
           imageElement.src = '/' + recipe.image.replace(/\\/g, '/');
           imageElement.alt = 'Recipe Image';
-          recipeContainer.appendChild(imageElement);
+    
+          // Append image to anchor element
+          imageLink.appendChild(imageElement);
+    
+          // Append anchor element to recipe div
+          recipeDiv.appendChild(imageLink);
         }
 
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete Recipe';
         deleteButton.classList.add('delete-button');
         deleteButton.onclick = () => deleteRecipe(recipe._id);
-        recipeContainer.appendChild(deleteButton);
+        recipeDiv.appendChild(deleteButton);
 
-        recipeList.appendChild(recipeContainer);
+        recipeContainer.appendChild(recipeDiv);
       });
     }
 
@@ -106,7 +227,6 @@
 
         if (response.ok) {
           const profileData = await response.json();
-          console.log(profileData);
           document.getElementById('userName').textContent = profileData.userName;
           renderRecipes(profileData.recipes);
         } else {
@@ -117,6 +237,7 @@
         console.log('Error occurred. Please try again later.');
       }
     };
+
   </script>
 </body>
 </html>

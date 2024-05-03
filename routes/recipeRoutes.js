@@ -3,7 +3,7 @@ const router = express.Router();
 const { createRecipe, getRecipes, getRecipeById, updateRecipe, deleteRecipe,getRecipesByCategory , createComment, getCommentsByRecipeId  } = require('../controllers/recipeController');
 const authenticateToken = require('../middleware/authenticateToken');
 const multer = require('multer');
-
+const Recipe = require('../models/recipe');
 
 
 
@@ -26,6 +26,26 @@ router.post('/', authenticateToken,  upload.single('image'), createRecipe);
 router.get('/', getRecipes);
 
 // Get a recipe by ID
+
+router.get('/search', async (req, res) => {
+  try {
+    const query = req.query.query;
+    
+    // Use a regular expression to perform a case-insensitive search for recipes
+    const recipes = await Recipe.find({
+      $or: [
+        { title: { $regex: query, $options: 'i' } },
+        { ingredients: { $regex: query, $options: 'i' } },
+        { instructions: { $regex: query, $options: 'i' } }
+      ]
+    }).exec();
+
+    res.json(recipes);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
 router.get('/:recipeId', getRecipeById);
 
 router.get('/category/:categoryId', getRecipesByCategory);
@@ -40,4 +60,8 @@ router.post('/:recipeId/comments',authenticateToken, createComment);
 
 // Route to get comments for a specific recipe
 router.get('/:recipeId/comments',authenticateToken, getCommentsByRecipeId);
+
+
+
+
 module.exports = router;
