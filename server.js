@@ -55,7 +55,7 @@ app.get('/register', (req, res) => {
 
 // Default route to redirect to login page
 app.get('/', (req, res) => {
-  res.redirect('/login');
+  res.redirect('/dashboard');
 });
 // Connect to MongoDB
 mongoose.connect(mongoURI, {
