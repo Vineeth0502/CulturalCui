@@ -4,24 +4,410 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+      body {
+        font-family: 'Open Sans', sans-serif;
+        margin-top: 20px;
+      }
+      .navbar-custom {
+        background-color: #fff; 
+        box-shadow: 0 2px 4px rgba(0,0,0,.1);
+      }
+      .navbar-custom .navbar-brand {
+        color: #333;
+        font-weight: bold;
+      }
+      .navbar-custom .navbar-nav .nav-link {
+        color: #333;
+      }
+      .navbar-custom .nav-item.active .nav-link,
+      .navbar-custom .nav-item:hover .nav-link {
+        color: #ffc107;
+      }
+      .navbar-custom .btn {
+        padding: .375rem .75rem;
+        margin-left: .5rem;
+      }
+  
+      .hero-section {
+        background: url('/background_image.jpg') no-repeat center center/cover;
+        padding: 4rem 0;
+        color: #fff;
+      }
+      .hero-section .btn {
+        background: #ffc107;
+        border: none;
+        border-radius: 50px;
+        padding: 0.5rem 1.5rem;
+        font-size: 1rem;
+        margin: 0 0.25rem;
+      }
+      .hero-section .btn:hover {
+        background: #e0a800;
+      }
+      .hero-section .btn.search-btn {
+        background: #28a745;
+        color: #fff;
+      }
+      .hero-section .btn.search-btn:hover {
+        background: #218838;
+      }
+  
+      .hero-section {
+        position: relative;
+        z-index: 1;
+      }
+  
+      .hero-section::before {
+        content: '';
+        display: block;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.5); /* Black with 50% opacity */
+        z-index: -1;
+      }
+  
+  
+      /* You should extract this to a separate CSS file in production */
+      .exclusive-offer {
+        background-color: #f8f9fa;
+        text-align: center;
+        padding: 2rem 0;
+      }
+      .exclusive-offer h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      .exclusive-offer .btn {
+        background: #ffc107;
+        color: #fff;
+        border-radius: 50px;
+        padding: 0.5rem 1.5rem;
+        font-size: 1rem;
+        margin-top: 1rem;
+      }
+      .exclusive-offer .btn:hover {
+        background: #ffc107;
+      }
+  
+      footer {
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 1rem 0;
+        margin-top: 4rem;
+      }
+      .recipe-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+      }
+      
+      .recipe-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      
+      .recipe-card img {
+        width: 100%;
+        height: auto;
+        border-bottom: 1px solid #ddd;
+      }
+      
+      .recipe-details {
+        padding: 20px;
+      }
+      
+      .recipe-details h3 {
+        margin-top: 0;
+      }
+      
+      .recipe-details p {
+        margin: 0;
+      }   
+      
+      .recipe-details button {
+        background-color: #ffc107;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      
+      .recipe-details button:hover {
+        background-color: #ffc107;
+      }
+  
+      /* featured section */
+      .featured-recipes {
+        font-family: 'Open Sans', sans-serif;
+        margin: 20px;
+        padding-left: 15px; /* align with your site's layout */
+      }
+  
+      .featured-recipes h2 {
+        font-size: 1.5em;
+        color: #333;
+        margin-bottom: 1em;
+      }
+  
+      .recipes-container {
+        display: flex;
+        gap: 20px;
+        overflow-x: auto;
+        flex-direction: column;
+      }
+  
+      .recipe-card {
+        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        background-color: #fff;
+        position: relative;
+        display: flex;
+        
+
+      }
+  
+      .recipe-image {
+        margin: 20px;
+        height: 200px;
+        width: 200px;
+        background-size: cover;
+        background-position: center;
+        z-index: 999;
+      }
+  
+      .recipe-rating {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: #ffc107;
+        color: #fff;
+        border-radius: 50%;
+        padding: 0.3em 0.6em;
+        display: flex;
+        align-items: center;
+        font-size: 0.875em;
+      }
+  
+      .rating-value {
+        margin-right: 0.2em;
+      }
+  
+      .rating-star {
+        color: #fff;
+      }
+  
+      .recipe-title {
+        font-size: 1.1em;
+        font-weight: bold;
+        margin: 0.5em;
+      }
+  
+      .recipe-info {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        padding: 0 1em 1em 1em;
+      }
+  
+      .recipe-cuisine,
+      .recipe-prep-time {
+        font-size: 0.875em;
+      }
+  
+      .recipe-link {
+        position: absolute;
+        top: 150px;
+        right: 10px;
+        width: 30px;
+        height: 30px;
+        font-size: 30px;
+        color: #000;
+        z-index: 999;
+        mask-size: cover;
+        background-size: cover;
+        transition: background-color 0.3s;
+      }
+  
+   
+  
+      /* Ensure this CSS is loaded after Bootstrap to override styles */
+      .btn {
+        border-radius: 50px;
+      }
+  
+      .cuisines-title {
+        text-align: center;
+        font-size: 24px;
+        margin-top: 20px;
+        font-family: Arial, sans-serif;
+      }
+  
+      .cuisines-list {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        margin: 20px 0;
+      }
+  
+      .cuisine-item {
+        flex-basis: calc(33.33% - 40px); /* Adjust size and space between items */
+        margin: 20px;
+        box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+      }
+  
+      .cuisine-image {
+        width: 100%;
+        height: 150px; /* Fixed height for uniformity */
+        object-fit: cover; /* Ensures image covers the area without distortion */
+      }
+  
+      .cuisine-link {
+        display: block;
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        padding: 10px;
+        font-size: 16px;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        text-decoration: none;
+      }
+  
+      .cuisine-link:hover {
+        color: white;
+        background-color: rgba(0, 0, 0, 0.7);
+      }
+  
+      #profileBtn {
+        display: inline-block;
+        background-color: #ffc107; 
+        margin-left: 20px;
+        width: 40px; /* Width of the button */
+        height: 40px; /* Height of the button */
+        border-radius: 20px; /* Makes the button rounded */
+        overflow: hidden; /* Ensures no overflow outside the button */
+        cursor: pointer; /* Changes cursor to pointer to indicate it's clickable */
+        border: none; /* No border for a cleaner look */
+      }
+  
+      #profileBtn img {
+        width: 100%; /* Ensures the icon fits the button */
+        height: auto; /* Maintains aspect ratio of the icon */
+        display: block; /* Removes any extra space inside the anchor */
+      }
+      .popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        z-index: 9999; /* Ensure the popup appears above other content */
+      }
+      
+      .popup-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 600px; /* Maximum width of the popup */
+      }
+      
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .recipe-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      
+      .recipie-main{
+        display: flex;
+        justify-content: space-between;
+        gap: 700px;
+      }
+      .view-button{
+        border: 0;
+        background-color: #ffc107;
+        padding: 10px;
+        text-decoration: none;
+        border-radius: 10px;
+      }
+      .view-button a{
+        text-decoration: none;
+        color: black;
+      }
+    </style>
 </head>
 <body>
-    <h2>Recipes</h2>
-    <div class="recipe-cards">
+  <div class="featured-recipes">
+    <div class="recipes-container">
       <% recipes.forEach(recipe => { %>
         <div class="recipe-card">
           <% if (recipe.image) { %>
-            <img src="<%= '/' + recipe.image.replace(/\\/g, '/') %>" alt="Recipe Image">
+            <div class="recipe-image" style="background-image: url('<%= '/' + recipe.image.replace(/\\/g, '/') %>');"></div>
+          <% } else { %>
+            <!-- Placeholder if no image available -->
+            <div class="recipe-image" style="background-image: url('/images/default.jpg');"></div>
           <% } %>
-          <div class="recipe-details">
-            <h3><%= recipe.title %></h3>
-            <p><strong>Category:</strong> <%= recipe.category.name %></p>
-            <form action="/recipes/<%= recipe._id %>" method="GET">
-              <button type="submit">View Recipe</button>
-            </form>
+          <div class="recipe-rating">
+            <span class="rating-value"><%= recipe.rating %></span>
+            <i class="fas fa-star rating-star"></i>
           </div>
+          <div class="recipie-main">
+          <div class="recipe-container">
+          <h3 class="recipe-title"><%= recipe.title %></h3>
+          <div class="recipe-info">
+            <span class="recipe-cuisine"><%= recipe.category.name %> Cuisine</span>
+            <div class="recipe-prep-time">Prep Time: <%= recipe.preparationTime   %> min</div>
+            <div> Serving size :<%= recipe.servingSize%>Tbsp</div>
+          </div>
+
+        </div>
+        <div class="recipe-container">
+          <div class="stars">
+            <span>Rating:</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+          </div>          <div class="recipe-info">
+           
+            <button class="view-button">  <a href="/recipes/<%= recipe._id %>" >View Recipie </a></button>
+          </div>
+
+        </div>
+        </div>
         </div>
       <% }) %>
-    </div> 
+    </div>
+  </div>
 </body>
 </html>
